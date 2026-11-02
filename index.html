@@ -1,155 +1,281 @@
 <!doctype html>
-<html lang="ru">
+<html lang="ru" data-l="ru">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>avekda — разработка и автоматизация</title>
-<meta name="description" content="avekda — фриланс-разработка: сайты, боты, скрипты и автоматизация. Быстро и по делу.">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>avekda — dev</title>
+<meta name="description" content="Сайты, Telegram-боты и скрипты. Студент информатики PJATK, Варшава.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Golos+Text:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap">
 <style>
-  :root{
-    --bg:#0b0d10; --panel:#14181d; --panel-2:#1b2027;
-    --text:#e8edf2; --muted:#9aa6b2; --line:#232a32;
-    --accent:#5b8cff; --accent-2:#36d399;
-    --radius:16px; --maxw:960px;
+/* Layout: одна колонка, всё прижато влево, как отчёт пентестера. Красный = Red Team. */
+:root {
+  --bg: #EEF0F2;
+  --surface: #FFFFFF;
+  --fg: #15181C;
+  --muted: #5B636D;
+  --line: #D3D8DE;
+  --accent: #C8102E;
+  --display: "Unbounded", "Arial Black", sans-serif;
+  --body: "Golos Text", system-ui, sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, Consolas, monospace;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #111418; --surface: #181C21; --fg: #E8EBEE; --muted: #8E98A3; --line: #2A3038; --accent: #FF4D5E;
+    color-scheme: dark;
   }
-  *{box-sizing:border-box}
-  html,body{margin:0;padding:0}
-  body{
-    background:
-      radial-gradient(1200px 600px at 80% -10%, rgba(91,140,255,.15), transparent 60%),
-      radial-gradient(900px 500px at -10% 10%, rgba(54,211,153,.10), transparent 55%),
-      var(--bg);
-    color:var(--text);
-    font:16px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Inter,Arial,sans-serif;
-    min-height:100vh;
-  }
-  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 20px}
-  header{padding:72px 0 28px;text-align:center}
-  .logo{
-    display:inline-flex;align-items:center;gap:12px;
-    font-weight:800;font-size:38px;letter-spacing:.5px;
-  }
-  .dot{width:12px;height:12px;border-radius:50%;background:var(--accent-2);box-shadow:0 0 18px var(--accent-2)}
-  .tagline{color:var(--muted);margin-top:12px;font-size:18px}
-  .status{
-    display:inline-flex;align-items:center;gap:8px;margin-top:18px;
-    padding:6px 14px;border:1px solid var(--line);border-radius:999px;
-    font-size:14px;color:var(--muted);background:var(--panel)
-  }
-  .status b{color:var(--accent-2);font-weight:600}
+}
+:root[data-theme="dark"] {
+  --bg: #111418; --surface: #181C21; --fg: #E8EBEE; --muted: #8E98A3; --line: #2A3038; --accent: #FF4D5E;
+  color-scheme: dark;
+}
 
-  section{margin:36px 0}
-  h2{font-size:14px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin:0 0 16px}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font: 400 17px/1.6 var(--body);
+}
+.wrap {
+  max-width: 880px;
+  margin: 0 auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
 
-  .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
-  .card{
-    background:linear-gradient(180deg,var(--panel),var(--panel-2));
-    border:1px solid var(--line);border-radius:var(--radius);
-    padding:22px;display:flex;flex-direction:column;gap:10px;
-    transition:transform .15s ease,border-color .15s ease;
-  }
-  .card:hover{transform:translateY(-3px);border-color:var(--accent)}
-  .card h3{margin:0;font-size:19px}
-  .card p{margin:0;color:var(--muted);font-size:15px;flex:1}
-  .price{font-size:26px;font-weight:800}
-  .price span{font-size:14px;color:var(--muted);font-weight:500}
+/* Переключатель языка */
+html[data-l="ru"] [lang="pl"], html[data-l="pl"] [lang="ru"] { display: none; }
 
-  .skills{display:flex;flex-wrap:wrap;gap:10px}
-  .tag{
-    border:1px solid var(--line);background:var(--panel);
-    padding:7px 14px;border-radius:999px;font-size:14px;color:var(--text)
-  }
+header {
+  display: flex; justify-content: space-between; align-items: center;
+  padding-block: 20px; border-bottom: 1px solid var(--line);
+}
+.handle { font: 600 15px var(--mono); }
+.handle b { color: var(--accent); }
+.lang { display: flex; gap: 4px; }
+.lang button {
+  font: 600 13px var(--mono); letter-spacing: .05em;
+  background: none; color: var(--muted);
+  border: 1px solid var(--line); border-radius: 4px; padding: 6px 10px; cursor: pointer;
+}
+.lang button[aria-pressed="true"] { color: var(--fg); border-color: var(--fg); }
+button:focus-visible, a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 
-  .contact{
-    background:linear-gradient(180deg,var(--panel),var(--panel-2));
-    border:1px solid var(--line);border-radius:var(--radius);
-    padding:26px;display:flex;flex-wrap:wrap;gap:14px;align-items:center;justify-content:space-between
-  }
-  .contact .lead{font-size:18px;font-weight:600}
-  .contact .lead span{color:var(--muted);font-weight:400;display:block;font-size:14px;margin-top:4px}
-  .btns{display:flex;gap:12px;flex-wrap:wrap}
-  .btn{
-    text-decoration:none;color:#fff;font-weight:600;
-    padding:12px 20px;border-radius:12px;border:1px solid var(--line);
-    background:var(--panel-2);transition:transform .12s ease,background .12s ease
-  }
-  .btn:hover{transform:translateY(-2px)}
-  .btn.tg{background:linear-gradient(135deg,#2aabee,#229ed9);border-color:transparent}
-  .btn.mail{background:linear-gradient(135deg,#5b8cff,#6d5bff);border-color:transparent}
+section { padding-block: 56px; border-bottom: 1px solid var(--line); }
+section:last-of-type { border-bottom: 0; }
 
-  footer{color:var(--muted);text-align:center;padding:40px 0 60px;font-size:14px}
+.label {
+  font: 600 12px var(--mono); text-transform: uppercase; letter-spacing: .12em;
+  color: var(--accent); margin: 0 0 20px;
+}
+h1, h2, h3 { text-wrap: balance; margin: 0; }
+h1 {
+  font: 700 clamp(34px, 7vw, 64px)/1.05 var(--display);
+  letter-spacing: -.02em; margin-bottom: 20px;
+}
+h1 em { font-style: normal; color: var(--accent); }
+h2 { font: 700 clamp(22px, 3.5vw, 30px)/1.2 var(--display); margin-bottom: 24px; }
+h3 { font: 600 19px/1.3 var(--body); }
+p { margin: 0; max-width: 62ch; }
+.lead { font-size: 19px; color: var(--muted); }
 
-  @media (max-width:720px){
-    .grid{grid-template-columns:1fr}
-    .logo{font-size:30px}
-    header{padding:52px 0 20px}
-    .contact{flex-direction:column;align-items:flex-start}
-  }
+/* Терминал в hero */
+.term {
+  margin-top: 32px; background: var(--surface); border: 1px solid var(--line);
+  border-radius: 6px; overflow-x: auto;
+}
+.term-bar {
+  font: 400 12px var(--mono); color: var(--muted);
+  padding: 8px 14px; border-bottom: 1px solid var(--line);
+}
+.term pre {
+  margin: 0; padding: 16px 14px; font: 400 14px/1.7 var(--mono); color: var(--fg);
+}
+.term .p { color: var(--accent); }
+.term .c { color: var(--muted); }
+
+.cta { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 32px; }
+.btn {
+  display: inline-block; text-decoration: none; font: 600 15px var(--body);
+  padding: 12px 20px; border-radius: 4px; border: 1px solid var(--fg); color: var(--fg);
+}
+.btn.main { background: var(--accent); border-color: var(--accent); color: #fff; }
+
+/* Услуги */
+.services { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; }
+.svc {
+  background: var(--surface); border: 1px solid var(--line); border-radius: 6px;
+  padding: 22px; display: flex; flex-direction: column; gap: 10px; min-width: 0;
+}
+.svc p { color: var(--muted); font-size: 15px; }
+.price { margin-top: auto; padding-top: 8px; font: 600 14px var(--mono); font-variant-numeric: tabular-nums; }
+
+/* Проекты */
+.proj { display: grid; gap: 0; }
+.proj-row {
+  display: grid; grid-template-columns: 1fr auto; gap: 8px 24px; align-items: baseline;
+  padding-block: 20px; border-top: 1px solid var(--line);
+}
+.proj-row:last-child { border-bottom: 1px solid var(--line); }
+.proj-row > div { min-width: 0; }
+.proj-row p { color: var(--muted); font-size: 15px; margin-top: 6px; }
+.tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+.tag { font: 400 12px var(--mono); color: var(--muted); border: 1px solid var(--line); border-radius: 3px; padding: 2px 7px; }
+.proj-row a { font: 600 14px var(--mono); color: var(--accent); text-decoration: none; white-space: nowrap; }
+.proj-row a:hover { text-decoration: underline; }
+.wip { font: 400 13px var(--mono); color: var(--muted); white-space: nowrap; }
+
+/* Учёба */
+.learn { list-style: none; padding: 0; margin: 0; display: grid; gap: 14px; }
+.learn li { display: grid; grid-template-columns: 110px 1fr; gap: 16px; }
+.learn .k { font: 600 13px var(--mono); color: var(--accent); padding-top: 3px; }
+
+/* Контакты */
+.contacts { display: grid; gap: 10px; margin-top: 8px; }
+.contacts div { display: flex; flex-wrap: wrap; gap: 4px 16px; align-items: baseline; }
+.contacts .k { font: 600 13px var(--mono); color: var(--muted); width: 90px; }
+.contacts a { color: var(--fg); font-weight: 500; }
+
+footer { padding-block: 32px; font: 400 13px var(--mono); color: var(--muted); }
+
+@media (max-width: 520px) {
+  .proj-row { grid-template-columns: 1fr; }
+  .learn li { grid-template-columns: 1fr; gap: 2px; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .btn { transition: transform .15s; }
+  .btn:hover { transform: translateY(-2px); }
+}
 </style>
 </head>
 <body>
-  <div class="wrap">
 
-    <header>
-      <div class="logo"><span class="dot"></span>avekda</div>
-      <div class="tagline">Разработка, боты и автоматизация — быстро и по делу.</div>
-      <div class="status"><b>●</b> Беру заказы</div>
-    </header>
+<div class="wrap">
+  <header>
+    <div class="handle"><b>&gt;</b> avekda</div>
+    <div class="lang" role="group" aria-label="Язык / Język">
+      <button type="button" id="btn-ru" data-set="ru" aria-pressed="true">RU</button>
+      <button type="button" id="btn-pl" data-set="pl" aria-pressed="false">PL</button>
+    </div>
+  </header>
 
-    <section>
-      <h2>Услуги</h2>
-      <div class="grid">
-        <div class="card">
-          <h3>Сайты и веб</h3>
-          <p>Лендинги, визитки, небольшие веб-приложения. Адаптив, чистый код, хостинг помогу настроить.</p>
-          <div class="price">от 300 <span>зл</span></div>
-        </div>
-        <div class="card">
-          <h3>Боты</h3>
-          <p>Telegram / Discord боты: автоответы, уведомления, парсинг, интеграции с API.</p>
-          <div class="price">от 250 <span>зл</span></div>
-        </div>
-        <div class="card">
-          <h3>Скрипты и автоматизация</h3>
-          <p>Автоматизация рутины, парсеры, скрипты, мелкие доработки и правки.</p>
-          <div class="price">от 100 <span>зл</span></div>
-        </div>
+  <!-- HERO -->
+  <section>
+    <p class="label"><span lang="ru">Веб-разработка · Варшава</span><span lang="pl">Tworzenie stron · Warszawa</span></p>
+    <h1>
+      <span lang="ru">Делаю сайты, ботов и&nbsp;скрипты, <em>которые работают</em></span>
+      <span lang="pl">Robię strony, boty i&nbsp;skrypty, <em>które działają</em></span>
+    </h1>
+    <p class="lead">
+      <span lang="ru">Студент информатики в PJATK. Беру небольшие задачи: лендинг для бизнеса, Telegram-бот, автоматизация рутины. Сдаю в срок и объясняю, что сделал.</span>
+      <span lang="pl">Student informatyki w PJATK. Biorę mniejsze zlecenia: landing page dla firmy, bot Telegram, automatyzacja. Oddaję w terminie i tłumaczę, co zrobiłem.</span>
+    </p>
+
+    <div class="term" aria-hidden="true">
+      <div class="term-bar">avekda@ubuntu: ~</div>
+<pre><span class="p">$</span> whoami
+avekda — student @ PJATK, Warszawa
+<span class="p">$</span> cat stack.txt
+Java · HTML/CSS/JS · Linux · Git
+<span class="p">$</span> cat focus.txt
+<span class="c"># сейчас: фриланс + Red Team (PJSEC)</span></pre>
+    </div>
+
+    <div class="cta">
+      <a class="btn main" href="#contact"><span lang="ru">Написать мне</span><span lang="pl">Napisz do mnie</span></a>
+      <a class="btn" href="https://github.com/avekdadoto" target="_blank" rel="noopener">GitHub</a>
+    </div>
+  </section>
+
+  <!-- УСЛУГИ -->
+  <section>
+    <p class="label"><span lang="ru">Что делаю</span><span lang="pl">Co robię</span></p>
+    <h2><span lang="ru">Услуги</span><span lang="pl">Usługi</span></h2>
+    <div class="services">
+      <div class="svc">
+        <h3><span lang="ru">Лендинг / сайт-визитка</span><span lang="pl">Landing page / wizytówka</span></h3>
+        <p><span lang="ru">Одностраничный сайт для салона, кафе, мастера. Адаптив под телефон, хостинг на GitHub Pages бесплатно.</span><span lang="pl">Strona dla salonu, kawiarni, fachowca. Działa na telefonie, darmowy hosting na GitHub Pages.</span></p>
+        <div class="price"><span lang="ru">от</span><span lang="pl">od</span> 300 zł</div>
       </div>
-    </section>
-
-    <section>
-      <h2>Стек</h2>
-      <div class="skills">
-        <span class="tag">Python</span>
-        <span class="tag">JavaScript</span>
-        <span class="tag">Java</span>
-        <span class="tag">HTML / CSS</span>
-        <span class="tag">Linux</span>
-        <span class="tag">Сети</span>
-        <span class="tag">Git</span>
-        <span class="tag">API</span>
+      <div class="svc">
+        <h3><span lang="ru">Telegram-бот</span><span lang="pl">Bot Telegram</span></h3>
+        <p><span lang="ru">Приём заказов, напоминания, каталог, ответы на частые вопросы.</span><span lang="pl">Przyjmowanie zamówień, przypomnienia, katalog, odpowiedzi na częste pytania.</span></p>
+        <div class="price"><span lang="ru">от</span><span lang="pl">od</span> 250 zł</div>
       </div>
-    </section>
-
-    <section>
-      <h2>Контакты</h2>
-      <div class="contact">
-        <div class="lead">
-          Напиши — обсудим задачу
-          <span>Отвечаю быстро. Оценка бесплатно.</span>
-        </div>
-        <div class="btns">
-          <a class="btn tg" href="https://t.me/avekda_dev">Telegram @avekda_dev</a>
-          <a class="btn mail" href="mailto:avekda@proton.me">avekda@proton.me</a>
-        </div>
+      <div class="svc">
+        <h3><span lang="ru">Скрипты и парсеры</span><span lang="pl">Skrypty i parsery</span></h3>
+        <p><span lang="ru">Собрать данные с сайта, разобрать таблицу, автоматизировать скучную работу.</span><span lang="pl">Zbieranie danych ze stron, obróbka tabel, automatyzacja nudnej pracy.</span></p>
+        <div class="price"><span lang="ru">от</span><span lang="pl">od</span> 100 zł</div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <footer>
-      © <span id="y"></span> avekda
-    </footer>
+  <!-- ПРОЕКТЫ -->
+  <section>
+    <p class="label"><span lang="ru">Работы</span><span lang="pl">Projekty</span></p>
+    <h2><span lang="ru">Проекты</span><span lang="pl">Projekty</span></h2>
+    <div class="proj">
+      <div class="proj-row">
+        <div>
+          <h3>Dota Stats</h3>
+          <p><span lang="ru">Веб-приложение со статистикой игрока Dota 2: матчи, герои, винрейт. Данные берёт из OpenDota API.</span><span lang="pl">Aplikacja webowa ze statystykami gracza Dota 2: mecze, bohaterowie, winrate. Dane z OpenDota API.</span></p>
+          <div class="tags"><span class="tag">JavaScript</span><span class="tag">REST API</span><span class="tag">GitHub Pages</span></div>
+        </div>
+        <a href="https://github.com/avekdadoto/dota-stats" target="_blank" rel="noopener">github →</a>
+      </div>
+      <div class="proj-row">
+        <div>
+          <h3><span lang="ru">Это портфолио</span><span lang="pl">To portfolio</span></h3>
+          <p><span lang="ru">Сайт, который ты сейчас смотришь: два языка, тёмная тема, адаптив. Без фреймворков.</span><span lang="pl">Strona, którą właśnie oglądasz: dwa języki, tryb ciemny, responsywność. Bez frameworków.</span></p>
+          <div class="tags"><span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">JS</span></div>
+        </div>
+        <span class="wip">v1</span>
+      </div>
+    </div>
+  </section>
 
-  </div>
-  <script>document.getElementById('y').textContent=new Date().getFullYear()</script>
+  <!-- УЧЁБА -->
+  <section>
+    <p class="label"><span lang="ru">Где прокачиваюсь</span><span lang="pl">Gdzie się rozwijam</span></p>
+    <h2><span lang="ru">Учёба</span><span lang="pl">Nauka</span></h2>
+    <ul class="learn">
+      <li><span class="k">PJATK</span><span><span lang="ru">Информатика, 1 курс. Программирование на Java.</span><span lang="pl">Informatyka, 1. rok. Programowanie w Javie.</span></span></li>
+      <li><span class="k">PJSEC</span><span><span lang="ru">Вводный курс Red Team в студенческом клубе кибербезопасности.</span><span lang="pl">Kurs wprowadzający Red Team w studenckim kole cyberbezpieczeństwa.</span></span></li>
+      <li><span class="k">OverTheWire</span><span><span lang="ru">Прохожу Bandit: Linux, терминал, SSH.</span><span lang="pl">Przechodzę Bandit: Linux, terminal, SSH.</span></span></li>
+    </ul>
+  </section>
+
+  <!-- КОНТАКТЫ -->
+  <section id="contact">
+    <p class="label"><span lang="ru">Связь</span><span lang="pl">Kontakt</span></p>
+    <h2><span lang="ru">Есть задача? Пиши</span><span lang="pl">Masz zlecenie? Napisz</span></h2>
+    <p class="lead"><span lang="ru">Отвечаю в течение дня. Пиши на русском, украинском или польском.</span><span lang="pl">Odpowiadam w ciągu dnia. Piszę po polsku, ukraińsku i rosyjsku.</span></p>
+    <div class="contacts" style="margin-top:24px">
+      <div><span class="k">Telegram</span><a href="https://t.me/avekda_dev" target="_blank" rel="noopener">@avekda_dev</a></div>
+      <div><span class="k">Email</span><span>avekda@proton.me</span></div>
+      <div><span class="k">GitHub</span><a href="https://github.com/avekdadoto" target="_blank" rel="noopener">avekdadoto</a></div>
+    </div>
+  </section>
+
+  <footer>© 2026 avekda · Warszawa</footer>
+</div>
+
+<script>
+  // Переключение языка RU / PL, выбор запоминается в браузере
+  function setLang(l) {
+    document.documentElement.dataset.l = l;
+    document.documentElement.lang = l;
+    document.querySelectorAll('.lang button').forEach(b =>
+      b.setAttribute('aria-pressed', b.dataset.set === l));
+    try { localStorage.setItem('lang', l); } catch (e) {}
+  }
+  document.querySelectorAll('.lang button').forEach(b =>
+    b.addEventListener('click', () => setLang(b.dataset.set)));
+  try { const saved = localStorage.getItem('lang'); if (saved) setLang(saved); } catch (e) {}
+</script>
 </body>
 </html>
